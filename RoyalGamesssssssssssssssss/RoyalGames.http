@@ -1,6 +1,0 @@
-@RoyalGames_HostAddress = http://localhost:5259
-
-GET {{RoyalGames_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
