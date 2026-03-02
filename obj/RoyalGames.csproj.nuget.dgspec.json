@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "C:\\Users\\42344828893\\Desktop\\RoyalGames\\RoyalGames.csproj": {}
   },
   "projects": {
@@ -12,12 +13,29 @@
         "projectPath": "C:\\Users\\42344828893\\Desktop\\RoyalGames\\RoyalGames.csproj",
         "packagesPath": "C:\\Users\\42344828893\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\42344828893\\Desktop\\RoyalGames\\obj\\",
+=======
+    "C:\\Users\\48705777801\\Desktop\\Royal Games\\RoyalGamesCorreto\\RoyalGames.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\48705777801\\Desktop\\Royal Games\\RoyalGamesCorreto\\RoyalGames.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\48705777801\\Desktop\\Royal Games\\RoyalGamesCorreto\\RoyalGames.csproj",
+        "projectName": "RoyalGames",
+        "projectPath": "C:\\Users\\48705777801\\Desktop\\Royal Games\\RoyalGamesCorreto\\RoyalGames.csproj",
+        "packagesPath": "C:\\Users\\48705777801\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\48705777801\\Desktop\\Royal Games\\RoyalGamesCorreto\\obj\\",
+>>>>>>> cdc7e5647a58870c131b7501ce0ba8c2f8876364
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
+<<<<<<< HEAD
           "C:\\Users\\42344828893\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+          "C:\\Users\\48705777801\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> cdc7e5647a58870c131b7501ce0ba8c2f8876364
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,7 +44,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -57,7 +74,11 @@
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
+<<<<<<< HEAD
               "version": "[8.0.0, )"
+=======
+              "version": "[8.0.23, )"
+>>>>>>> cdc7e5647a58870c131b7501ce0ba8c2f8876364
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -74,6 +95,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.0, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.6.2, )"
             }
           },
           "imports": [
