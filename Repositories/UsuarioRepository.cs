@@ -28,6 +28,11 @@ namespace RoyalGames.Repositories
             return _context.Usuario.Find(id);
         }
 
+        public Usuario? ObterPorEmail(string email)
+        {
+            return _context.Usuario.Find(email);
+        }
+
         public void Deletar(int id)
         {
             Usuario? usuario = _context.Usuario.FirstOrDefault(usuarioAux => usuarioAux.UsuarioID == id);

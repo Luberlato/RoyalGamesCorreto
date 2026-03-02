@@ -8,6 +8,7 @@ namespace RoyalGames.Interfaces
          List<Usuario> Listar();
          void CadastrarUsuario(Usuario usuario);
          Usuario? ObterPorId(int id);
+         Usuario? ObterPorEmail(string email);
          void Deletar(int id);
          void Atualizar(Usuario usuario);
     }

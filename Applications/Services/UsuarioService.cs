@@ -50,6 +50,18 @@ namespace RoyalGames.Applications.Services
             return LerDto(usuario);
         }
 
+        public LerUsuarioDto ObterPorEmail(string email)
+        {
+            Usuario? usuario = _repository.ObterPorEmail(email);
+
+            if (usuario == null)
+            {
+                throw new DomainException("Usuario não encontrado");
+            }
+
+            return LerDto(usuario);
+        }
+
         private static byte[] HashSenha(string senha)
         {
             if (string.IsNullOrWhiteSpace(senha)) 
@@ -74,5 +86,12 @@ namespace RoyalGames.Applications.Services
 
             return LerDto(usuario);
         }
+
+        public void Deletar(int id)
+        {
+            _repository.Deletar(id);
+        }
+        
     }
+
 }

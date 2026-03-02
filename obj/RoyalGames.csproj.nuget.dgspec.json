@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\USER\\Desktop\\RoyalGames\\RoyalGames.csproj": {}
+    "C:\\Users\\42344828893\\Desktop\\RoyalGames\\RoyalGames.csproj": {}
   },
   "projects": {
-    "C:\\Users\\USER\\Desktop\\RoyalGames\\RoyalGames.csproj": {
+    "C:\\Users\\42344828893\\Desktop\\RoyalGames\\RoyalGames.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\USER\\Desktop\\RoyalGames\\RoyalGames.csproj",
+        "projectUniqueName": "C:\\Users\\42344828893\\Desktop\\RoyalGames\\RoyalGames.csproj",
         "projectName": "RoyalGames",
-        "projectPath": "C:\\Users\\USER\\Desktop\\RoyalGames\\RoyalGames.csproj",
-        "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\USER\\Desktop\\RoyalGames\\obj\\",
+        "projectPath": "C:\\Users\\42344828893\\Desktop\\RoyalGames\\RoyalGames.csproj",
+        "packagesPath": "C:\\Users\\42344828893\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\42344828893\\Desktop\\RoyalGames\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\42344828893\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -45,12 +45,20 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.24, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -87,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
