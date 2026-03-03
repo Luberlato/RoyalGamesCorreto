@@ -1,6 +1,7 @@
 ﻿using RoyalGames.Applications.Autenticacao;
 using RoyalGames.Domains;
 using RoyalGames.Dtos.Auth;
+using RoyalGames.Dtos.AuthDto;
 using RoyalGames.Excpetions;
 using RoyalGames.Interfaces;
 

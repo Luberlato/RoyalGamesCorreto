@@ -8,11 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.24" />
-<<<<<<< HEAD
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
-=======
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.23" />
->>>>>>> cdc7e5647a58870c131b7501ce0ba8c2f8876364
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

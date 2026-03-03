@@ -16,6 +16,7 @@ namespace RoyalGames.Controllers
         {
             _service = service;
         }
+
         [Authorize]
         [HttpGet]
         public ActionResult Listar()
@@ -30,7 +31,7 @@ namespace RoyalGames.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Authorize]
+        
         [HttpGet("{id}")]
         public ActionResult ObterPorID(int id)
         {
@@ -57,7 +58,7 @@ namespace RoyalGames.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [Authorize]
+        
         [HttpDelete("{id}")]
         public ActionResult Delete(int id) 
         {

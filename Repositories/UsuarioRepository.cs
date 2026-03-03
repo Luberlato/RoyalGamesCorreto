@@ -30,7 +30,7 @@ namespace RoyalGames.Repositories
 
         public Usuario? ObterPorEmail(string email)
         {
-            return _context.Usuario.Find(email);
+            return _context.Usuario.Where(usuario => usuario.Email == email).FirstOrDefault();
         }
 
         public void Deletar(int id)

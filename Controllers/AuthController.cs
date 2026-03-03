@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RoyalGames.Applications.Autenticacao;
 using RoyalGames.Applications.Services;
-using RoyalGames.Domains;
 using RoyalGames.Dtos.Auth;
+using RoyalGames.Dtos.AuthDto;
 using RoyalGames.Excpetions;
 
 namespace RoyalGames.Controllers
@@ -30,7 +29,6 @@ namespace RoyalGames.Controllers
             }
             catch (DomainException ex)
             {
-
                 return BadRequest(ex.Message);
             }
 
