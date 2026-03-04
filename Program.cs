@@ -49,6 +49,9 @@ builder.Services.AddScoped<UsuarioService>();
 builder.Services.AddScoped<IPlataformaRepository, PlataformaRepository>();
 builder.Services.AddScoped<PlataformaService>();
 
+builder.Services.AddScoped<IJogoRepository, JogoRepository>();
+builder.Services.AddScoped<JogoService>();
+
 builder.Services.AddScoped<GeradorTokenJwt>();
 builder.Services.AddScoped<AuthService>();
 

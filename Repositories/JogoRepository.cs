@@ -43,6 +43,61 @@ namespace RoyalGames.Repositories
             _context.SaveChanges();
         }
 
+        public void Atualizar(Jogo jogo, List<int> GenerosIds)
+        {
+            Jogo? jogoBanco = _context.Jogo.Include(produto => produto.Genero)
+                .FirstOrDefault(jogoAux => jogoAux.JogoID == jogo.JogoID);
+
+            if (jogoBanco == null)
+            {
+                return;
+            }
+
+            jogoBanco.Nome = jogo.Nome;
+            jogoBanco.Descricao = jogo.Descricao;
+            jogoBanco.Preco = jogo.Preco;
+            jogoBanco.Imagem = jogo.Imagem;
+            jogoBanco.DataLancamento = jogo.DataLancamento;
+            jogoBanco.Plataforma = jogo.Plataforma;
+            jogoBanco.Genero = jogo.Genero;
+            jogoBanco.ClassificacaoIndicativa = jogo.ClassificacaoIndicativa;
+
+            var generos = _context.Genero.Where(genero => GenerosIds.Contains(genero.GeneroID))
+            .ToList();
+
+
+            if (jogo.Imagem != null && jogo.Imagem.Length > 0)
+            {
+                jogoBanco.Imagem = jogo.Imagem;
+            }
+
+            if(jogo.StatusJogo.HasValue)
+            {
+                jogoBanco.StatusJogo = jogo.StatusJogo; 
+            }
+
+            foreach(var genero in generos)
+            {
+                jogoBanco.Genero.Add(genero);
+            }
+
+            _context.SaveChanges();
+        }
+
+        public void Remover(int id)
+        {
+            Jogo? jogo = _context.Jogo.Where(jogo => jogo.JogoID == id).FirstOrDefault();
+
+            if (jogo == null)
+            {
+                return;
+            }
+
+            _context.Jogo.Remove(jogo);
+            _context.SaveChanges();
+            
+        }
+
 
     }
 }
