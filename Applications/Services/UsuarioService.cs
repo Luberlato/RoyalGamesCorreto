@@ -38,6 +38,29 @@ namespace RoyalGames.Applications.Services
 
         }
 
+        private static void ValidarEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
+            {
+                throw new DomainException("Email inválido.");
+            }
+        }
+
+
+
+
+
+        private static byte[] HashSenha(string senha)
+        {
+            if (string.IsNullOrWhiteSpace(senha)) 
+            {
+                throw new DomainException("Senha é obrigatória.");
+            }
+
+            using var sha256 = SHA256.Create();
+            return sha256.ComputeHash(Encoding.UTF8.GetBytes(senha));
+        }
+
         public LerUsuarioDto ObterPorId(int id)
         {
             Usuario? usuario = _repository.ObterPorId(id);
@@ -50,29 +73,82 @@ namespace RoyalGames.Applications.Services
             return LerDto(usuario);
         }
 
-        private static byte[] HashSenha(string senha)
+        public LerUsuarioDto ObterPorEmail(string email)
         {
-            if (string.IsNullOrWhiteSpace(senha)) 
+            Usuario? usuario = _repository.ObterPorEmail(email);
+
+            if (usuario == null)
             {
-                throw new DomainException("Senha é obrigatória.");
+                throw new DomainException("Usuário não existe.");
             }
 
-            using var sha256 = SHA256.Create();
-            return sha256.ComputeHash(Encoding.UTF8.GetBytes(senha));
+            return LerDto(usuario);
         }
+
         public LerUsuarioDto CadastrarUsuario(CriarUsuarioDto criarUsuario)
         {
+
+            ValidarEmail(criarUsuario.Email);
+
+            if (_repository.EmailExiste(criarUsuario.Email))
+            {
+                throw new DomainException("Já existe um usuário com este e-mail");
+            }
+
             Usuario usuario = new Usuario
             {
                 Nome = criarUsuario.Nome,
                 Email = criarUsuario.Email,
-                Senha = HashSenha(criarUsuario.senha),
-
+                Senha = HashSenha(criarUsuario.Senha),
+                StatusUsuario = true
             };
 
             _repository.CadastrarUsuario(usuario);
 
             return LerDto(usuario);
+
+        }
+
+        public LerUsuarioDto Atualizar(int id, CriarUsuarioDto usuarioDto)
+        {
+
+            Usuario usuarioBanco = _repository.ObterPorId(id);
+
+            if (usuarioBanco == null)
+            {
+                throw new DomainException("Usuário não encontrado.");
+            }
+
+            ValidarEmail(usuarioDto.Email);
+
+            Usuario usuarioComMesmoEmail = _repository.ObterPorEmail(usuarioDto.Email);
+
+            if (usuarioComMesmoEmail != null && usuarioComMesmoEmail.UsuarioID != id)
+            {
+                throw new DomainException("Já existe um usuário com este e-mail.");
+            }
+
+            usuarioBanco.Nome = usuarioDto.Nome;
+            usuarioBanco.Email = usuarioDto.Email;
+            usuarioBanco.Senha = HashSenha(usuarioDto.Senha);
+
+            _repository.Atualizar(usuarioBanco);
+
+            return LerDto(usuarioBanco);
+        }
+
+
+        public void Deletar(int id)
+        {
+            Usuario usuario = _repository.ObterPorId(id);
+
+            if (usuario == null)
+            {
+                throw new DomainException("Usuário não encontrado.");
+            }
+
+            _repository.Deletar(id);
         }
     }
 }
+

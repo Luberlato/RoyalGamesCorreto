@@ -16,12 +16,12 @@ namespace RoyalGames.Controllers
             _service = service;
         }
         [HttpGet]
-        public ActionResult Listar()
+        public ActionResult<List<LerUsuarioDto>> Listar()
         {
             try
             {
-                List<LerUsuarioDto> produtos = _service.Listar();
-                return Ok(produtos);
+                List<LerUsuarioDto> usuarios = _service.Listar();
+                return Ok(usuarios);
             }
             catch (Exception ex)
             {
@@ -29,24 +29,38 @@ namespace RoyalGames.Controllers
             }
         }
         [HttpGet("{id}")]
-        public ActionResult ObterPorID(int id)
+        public ActionResult<LerUsuarioDto> ObterPorID(int id)
         {
-            try
+            LerUsuarioDto usuario = _service.ObterPorId(id);
+
+            if (usuario == null)
             {
-                LerUsuarioDto usuario = _service.ObterPorId(id);
-                return Ok(usuario);
+                return NotFound(); // NÃO ENCONTRADO - StatusCode 404
             }
-            catch (DomainException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+
+            return Ok(usuario);
         }
+
+        [HttpGet("email/{email}")]
+        public ActionResult<LerUsuarioDto> ObterPorEmail(string email)
+        {
+            LerUsuarioDto usuario = _service.ObterPorEmail(email);
+
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(usuario);
+        }
+
+
         [HttpPost]
         public ActionResult CadastrarUsuario(CriarUsuarioDto usuarioDto)
         {
             try
             {
-                LerUsuarioDto usuario =  _service.CadastrarUsuario(usuarioDto);
+                LerUsuarioDto usuario = _service.CadastrarUsuario(usuarioDto);
                 return Ok(usuario);
             }
             catch (DomainException ex)
@@ -54,6 +68,36 @@ namespace RoyalGames.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut("{id}")]
+        public ActionResult<LerUsuarioDto> Atualizar(int id, CriarUsuarioDto usuarioDto)
+        {
+            try
+            {
+                LerUsuarioDto usuarioAtualizado = _service.Atualizar(id, usuarioDto);
+
+                return StatusCode(200, usuarioAtualizado);
+            }
+            catch (DomainException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult Deletar(int id)
+        {
+            try
+            {
+                _service.Deletar(id);
+                return NoContent();
+            }
+            catch (DomainException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
     }
 }

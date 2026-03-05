@@ -19,7 +19,7 @@ namespace RoyalGames.Repositories
 
         public void CadastrarUsuario(Usuario usuario)
         {
-            _context.Add(usuario);
+            _context.Usuario.Add(usuario);
             _context.SaveChanges();
         }
 
@@ -27,6 +27,18 @@ namespace RoyalGames.Repositories
         {
             return _context.Usuario.Find(id);
         }
+
+        public Usuario? ObterPorEmail(string email)
+        {
+
+            return _context.Usuario.FirstOrDefault(usuario => usuario.Email == email);
+        }
+
+        public bool EmailExiste(string email)
+        {
+            return _context.Usuario.Any(usuario => usuario.Email == email);
+        }
+
 
         public void Deletar(int id)
         {
