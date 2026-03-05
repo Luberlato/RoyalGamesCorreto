@@ -1,6 +1,5 @@
 ﻿using RoyalGames.Domains;
 using RoyalGames.Dtos.JogoDto;
-using RoyalGames.Repositories;
 using RoyalGames.Excpetions;
 using RoyalGames.Interfaces;
 
@@ -9,110 +8,71 @@ namespace RoyalGames.Applications.Services
     public class JogoService
     {
         private readonly IJogoRepository _repository;
+        private readonly ILog_AlteracaoJogoRepository _logRepository;
 
-        public JogoService(IJogoRepository repository)
+        public JogoService(IJogoRepository repository, ILog_AlteracaoJogoRepository logRepository)
         {
             _repository = repository;
+            _logRepository = logRepository;
         }
 
         public static LerJogoDto lerDto(Jogo jogo)
         {
-            LerJogoDto dto = new LerJogoDto
+            return new LerJogoDto
             {
-
                 JogoId = jogo.JogoID,
                 Nome = jogo.Nome,
                 Descricao = jogo.Descricao,
                 Preco = jogo.Preco,
                 StatusProduto = jogo.StatusJogo,
-
-                
-                CategoriasIds = jogo.Genero
-                .Select(g => g.GeneroID)
-                .ToList(),
-
-                Categorias = jogo.Genero
-                .Select(g => g.Nome)
-                .ToList(),
-
-                
+                CategoriasIds = jogo.Genero?.Select(g => g.GeneroID).ToList() ?? new List<int>(),
+                Categorias = jogo.Genero?.Select(g => g.Nome).ToList() ?? new List<string>(),
                 UsuarioId = jogo.UsuarioID,
                 UsuarioNome = jogo.Usuario?.Nome,
                 UsuarioEmail = jogo.Usuario?.Email
             };
-
-            return dto;
-        }
-
-        public static void ValidarCadastro(CriarJogoDto jogoDto)
-        {
-            if (string.IsNullOrWhiteSpace(jogoDto.Nome))
-            {
-                throw new DomainException("Nome é obrigatorio");
-            }
-
-            if (jogoDto.Preco < 0)
-            {
-                throw new DomainException("Preço inválido");
-            }
-
-            if (string.IsNullOrWhiteSpace(jogoDto.Descricao))
-            {
-                throw new DomainException("Descrição é obrigatória");
-            }
-
-            if (jogoDto.Imagem == null || jogoDto.Imagem.Length == 0)
-            {
-                throw new DomainException("Produto deve ter ao menos uma foto");
-            }
         }
 
         public List<LerJogoDto> Listar()
         {
-            List<Jogo> jogos = _repository.Listar();
-
-            List<LerJogoDto> jogosDto = jogos.Select(jogo => lerDto(jogo)).ToList();
-
-            return jogosDto;
+            var jogos = _repository.Listar();
+            return jogos.Select(j => lerDto(j)).ToList();
         }
 
-        public LerJogoDto? ObterPorId(int id)
+        public void ValidarCadastro(CriarJogoDto jogoDto)
         {
-            Jogo dto = _repository.ObterPorId(id);
+            if (string.IsNullOrWhiteSpace(jogoDto.Nome))
+                throw new DomainException("Nome é obrigatório");
 
-            if (dto == null)
-            {
-                throw new DomainException("Jogo não identificado");
-            }
-
-            return lerDto(dto);
+            if (jogoDto.Preco < 0)
+                throw new DomainException("Preço inválido");
         }
 
-        public List<LerJogoDto>? ObterPorNome(string nome)
+        public LerJogoDto Atualizar(int id, CriarJogoDto jogoDto)
         {
-          List<Jogo> jogos = _repository.ObterPorNome(nome);
+            var jogoBanco = _repository.ObterPorId(id);
+            if (jogoBanco == null) throw new DomainException("Jogo não encontrado.");
 
-            if(jogos == null)
+            ValidarCadastro(jogoDto);
+
+            var log = new Log_AlteracaoJogo
             {
-                throw new DomainException("Jogo não identificado");
-            }
+                JogoID = jogoBanco.JogoID,
+                NomeAnterior = jogoBanco.Nome,
+                PrecoAnterior = jogoBanco.Preco,
+                DataAlteracao = DateTime.Now
+            };
 
-            List<LerJogoDto> jogosDto = jogos.Select(jogo => lerDto(jogo)).ToList();
+            jogoBanco.Nome = jogoDto.Nome;
+            jogoBanco.Descricao = jogoDto.Descricao;
+            jogoBanco.Preco = jogoDto.Preco;
 
-            return jogosDto;
+
+            _repository.Atualizar(jogoBanco, jogoDto.CategoriasIds);
+
+            _logRepository.SalvarLog(log);
+
+            return lerDto(jogoBanco);
         }
-
-        //public LerJogoDto Adicionar(CriarJogoDto jogoDto)
-        //{
-            //ValidarCadastro(jogoDto);
-
-            //Jogo jogo = new Jogo
-            //{
-                
-            //};
-        //}
-
-
-
     }
 }

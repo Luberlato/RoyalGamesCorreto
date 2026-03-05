@@ -3,13 +3,11 @@
     public class CriarJogoDto
     {
         public string Nome { get; set; } = null!;
-
+        public string Descricao { get; set; } = null!;
         public decimal Preco { get; set; }
 
-        public string Descricao { get; set; } = null!;
+        public List<int> CategoriasIds { get; set; } = new List<int>();
 
-        public IFormFile Imagem { get; set; } = null!; // A imagem vem via multipart/form-data, ideal para upload de arquivo
-
-        public List<int> CategoriaIds { get; set; } = new();
+        public byte[]? Imagem { get; set; }
     }
 }

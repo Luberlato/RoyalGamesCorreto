@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RoyalGames.Applications.Services;
 using RoyalGames.Dtos.ClassificacaoDtos;
 using RoyalGames.Excpetions;
@@ -7,6 +8,7 @@ namespace RoyalGames.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ClassificacaoIndicativaController : ControllerBase
     {
         private readonly ClassificacaoIndicativaService _service;

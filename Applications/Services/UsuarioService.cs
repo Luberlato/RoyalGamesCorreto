@@ -18,24 +18,19 @@ namespace RoyalGames.Applications.Services
 
         private static LerUsuarioDto LerDto(Usuario usuario)
         {
-            LerUsuarioDto lerDto = new LerUsuarioDto
+            return new LerUsuarioDto
             {
                 Id = usuario.UsuarioID,
                 Email = usuario.Email,
                 Nome = usuario.Nome,
                 StatusUsuario = usuario.StatusUsuario ?? true
             };
-            return lerDto;
         }
 
         public List<LerUsuarioDto> Listar()
         {
             List<Usuario> usuarios = _repository.Listar();
-
-            List<LerUsuarioDto> usuariosDto = usuarios.Select(usuarioBanco => LerDto(usuarioBanco)).ToList();
-
-            return usuariosDto;
-
+            return usuarios.Select(usuarioBanco => LerDto(usuarioBanco)).ToList();
         }
 
         private static void ValidarEmail(string email)
@@ -46,13 +41,9 @@ namespace RoyalGames.Applications.Services
             }
         }
 
-
-
-
-
         private static byte[] HashSenha(string senha)
         {
-            if (string.IsNullOrWhiteSpace(senha)) 
+            if (string.IsNullOrWhiteSpace(senha))
             {
                 throw new DomainException("Senha é obrigatória.");
             }
@@ -64,45 +55,19 @@ namespace RoyalGames.Applications.Services
         public LerUsuarioDto ObterPorId(int id)
         {
             Usuario? usuario = _repository.ObterPorId(id);
-
-            if (usuario == null)
-            {
-                throw new DomainException("Usuario não encontrado");
-            }
-
+            if (usuario == null) throw new DomainException("Usuario não encontrado");
             return LerDto(usuario);
         }
 
         public LerUsuarioDto ObterPorEmail(string email)
-<<<<<<< HEAD
-=======
         {
             Usuario? usuario = _repository.ObterPorEmail(email);
-
-            if (usuario == null)
-            {
-                throw new DomainException("Usuario não encontrado");
-            }
-
-            return LerDto(usuario);
-        }
-
-        private static byte[] HashSenha(string senha)
->>>>>>> 7d142ff32cc115f10afea464e52171359e923c14
-        {
-            Usuario? usuario = _repository.ObterPorEmail(email);
-
-            if (usuario == null)
-            {
-                throw new DomainException("Usuário não existe.");
-            }
-
+            if (usuario == null) throw new DomainException("Usuário não existe.");
             return LerDto(usuario);
         }
 
         public LerUsuarioDto CadastrarUsuario(CriarUsuarioDto criarUsuario)
         {
-
             ValidarEmail(criarUsuario.Email);
 
             if (_repository.EmailExiste(criarUsuario.Email))
@@ -119,25 +84,17 @@ namespace RoyalGames.Applications.Services
             };
 
             _repository.CadastrarUsuario(usuario);
-
             return LerDto(usuario);
-
         }
 
         public LerUsuarioDto Atualizar(int id, CriarUsuarioDto usuarioDto)
         {
-
-            Usuario usuarioBanco = _repository.ObterPorId(id);
-
-            if (usuarioBanco == null)
-            {
-                throw new DomainException("Usuário não encontrado.");
-            }
+            Usuario? usuarioBanco = _repository.ObterPorId(id);
+            if (usuarioBanco == null) throw new DomainException("Usuário não encontrado.");
 
             ValidarEmail(usuarioDto.Email);
 
-            Usuario usuarioComMesmoEmail = _repository.ObterPorEmail(usuarioDto.Email);
-
+            Usuario? usuarioComMesmoEmail = _repository.ObterPorEmail(usuarioDto.Email);
             if (usuarioComMesmoEmail != null && usuarioComMesmoEmail.UsuarioID != id)
             {
                 throw new DomainException("Já existe um usuário com este e-mail.");
@@ -148,29 +105,15 @@ namespace RoyalGames.Applications.Services
             usuarioBanco.Senha = HashSenha(usuarioDto.Senha);
 
             _repository.Atualizar(usuarioBanco);
-
             return LerDto(usuarioBanco);
         }
 
-
         public void Deletar(int id)
         {
-            Usuario usuario = _repository.ObterPorId(id);
-
-            if (usuario == null)
-            {
-                throw new DomainException("Usuário não encontrado.");
-            }
-
+            Usuario? usuario = _repository.ObterPorId(id);
+            if (usuario == null) throw new DomainException("Usuário não encontrado.");
             _repository.Deletar(id);
         }
 
-        public void Deletar(int id)
-        {
-            _repository.Deletar(id);
-        }
-        
     }
-
 }
-

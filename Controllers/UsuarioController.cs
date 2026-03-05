@@ -9,6 +9,7 @@ namespace RoyalGames.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsuarioController : ControllerBase
     {
         private readonly UsuarioService _service;
@@ -73,19 +74,6 @@ namespace RoyalGames.Controllers
             }
         }
         
-        [HttpDelete("{id}")]
-        public ActionResult Delete(int id) 
-        {
-            try
-            {
-                _service.Deletar(id);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
 
         [HttpPut("{id}")]
         public ActionResult<LerUsuarioDto> Atualizar(int id, CriarUsuarioDto usuarioDto)

@@ -18,7 +18,6 @@ namespace RoyalGames.Applications.Services
             _tokenJwt = tokenJwt;
         }
 
-        // compara a hash SHA256 
         private static bool VerificarSenha(string senhaDigitada, byte[] senhaHashBanco)
         {
             using var sha = System.Security.Cryptography.SHA256.Create();
@@ -36,13 +35,11 @@ namespace RoyalGames.Applications.Services
                 throw new DomainException("E-mail ou senha inválidos");
             }
 
-            // comparar a senha digitada com a senha armazenada
             if (!VerificarSenha(loginDto.Senha, usuario.Senha))
             {
                 throw new DomainException("E-mail ou senha inválidos");
             }
 
-            // gerando o token
             var token = _tokenJwt.GerarToken(usuario);
 
             TokenDto novoToken = new TokenDto { Token = token };
