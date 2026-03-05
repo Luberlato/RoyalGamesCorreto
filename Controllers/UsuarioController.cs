@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RoyalGames.Applications.Services;
 using RoyalGames.Dtos.UsuarioDtos;
@@ -15,6 +16,8 @@ namespace RoyalGames.Controllers
         {
             _service = service;
         }
+
+        [Authorize]
         [HttpGet]
         public ActionResult<List<LerUsuarioDto>> Listar()
         {
@@ -28,6 +31,7 @@ namespace RoyalGames.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        
         [HttpGet("{id}")]
         public ActionResult<LerUsuarioDto> ObterPorID(int id)
         {
@@ -64,6 +68,20 @@ namespace RoyalGames.Controllers
                 return Ok(usuario);
             }
             catch (DomainException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id) 
+        {
+            try
+            {
+                _service.Deletar(id);
+                return NoContent();
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

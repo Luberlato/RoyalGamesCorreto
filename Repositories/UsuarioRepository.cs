@@ -30,6 +30,7 @@ namespace RoyalGames.Repositories
 
         public Usuario? ObterPorEmail(string email)
         {
+<<<<<<< HEAD
 
             return _context.Usuario.FirstOrDefault(usuario => usuario.Email == email);
         }
@@ -40,6 +41,11 @@ namespace RoyalGames.Repositories
         }
 
 
+=======
+            return _context.Usuario.Where(usuario => usuario.Email == email).FirstOrDefault();
+        }
+
+>>>>>>> 7d142ff32cc115f10afea464e52171359e923c14
         public void Deletar(int id)
         {
             Usuario? usuario = _context.Usuario.FirstOrDefault(usuarioAux => usuarioAux.UsuarioID == id);

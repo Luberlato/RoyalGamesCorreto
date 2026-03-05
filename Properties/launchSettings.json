@@ -3,7 +3,11 @@
     "http": {
       "commandName": "Project",
       "launchBrowser": true,
+<<<<<<< HEAD
       "launchUrl": "swagger",
+=======
+      "launchUrl": "weatherforecast",
+>>>>>>> 7d142ff32cc115f10afea464e52171359e923c14
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
