@@ -7,8 +7,9 @@ namespace RoyalGames.Interfaces
         List<Jogo> Listar();
         Jogo? ObterPorId(int id);
         List<Jogo>? ObterPorNome(string nome);
-        void Adicionar(Jogo jogo, List<int> CatgeoriasIds);
-        void Atualizar(Jogo jogo, List<int> categoriaIds);
+        public byte[] ObterImagemPorId(int id);
+        void Adicionar(Jogo jogo, List<int> GeneroIds);
+        void Atualizar(Jogo jogo, List<int> GeneroIds);
         void Remover(int id);
     }
 }

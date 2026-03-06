@@ -1,4 +1,5 @@
-﻿using RoyalGames.Domains;
+﻿using RoyalGames.Applications.Conversões;
+using RoyalGames.Domains;
 using RoyalGames.Dtos.JogoDto;
 using RoyalGames.Excpetions;
 using RoyalGames.Interfaces;
@@ -25,8 +26,8 @@ namespace RoyalGames.Applications.Services
                 Descricao = jogo.Descricao,
                 Preco = jogo.Preco,
                 StatusProduto = jogo.StatusJogo,
-                CategoriasIds = jogo.Genero?.Select(g => g.GeneroID).ToList() ?? new List<int>(),
-                Categorias = jogo.Genero?.Select(g => g.Nome).ToList() ?? new List<string>(),
+                GenerosIds = jogo.Genero?.Select(g => g.GeneroID).ToList() ?? new List<int>(),
+                Generos = jogo.Genero?.Select(g => g.Nome).ToList() ?? new List<string>(),
                 UsuarioId = jogo.UsuarioID,
                 UsuarioNome = jogo.Usuario?.Nome,
                 UsuarioEmail = jogo.Usuario?.Email
@@ -48,12 +49,12 @@ namespace RoyalGames.Applications.Services
                 throw new DomainException("Preço inválido");
         }
 
-        public LerJogoDto Atualizar(int id, CriarJogoDto jogoDto)
+        public LerJogoDto Atualizar(int id, AtualizarJogoDto jogoDto)
         {
             var jogoBanco = _repository.ObterPorId(id);
-            if (jogoBanco == null) throw new DomainException("Jogo não encontrado.");
 
-            ValidarCadastro(jogoDto);
+            if (jogoBanco == null)
+                throw new DomainException("Jogo não encontrado.");
 
             var log = new Log_AlteracaoJogo
             {
@@ -67,12 +68,66 @@ namespace RoyalGames.Applications.Services
             jogoBanco.Descricao = jogoDto.Descricao;
             jogoBanco.Preco = jogoDto.Preco;
 
+            if (jogoDto.Imagem != null && jogoDto.Imagem.Length > 0)
+            {
+                jogoBanco.Imagem = ImagemParaBytes.ConverterImagem(jogoDto.Imagem);
+            }
 
-            _repository.Atualizar(jogoBanco, jogoDto.CategoriasIds);
+            _repository.Atualizar(
+                jogoBanco,
+                jogoBanco.Genero.Select(g => g.GeneroID).ToList()
+            );
 
             _logRepository.SalvarLog(log);
 
             return lerDto(jogoBanco);
         }
+
+        public LerJogoDto ObterPorId(int id)
+        {
+            var jogo = _repository.ObterPorId(id);
+            if (jogo == null) throw new DomainException("Jogo não encontrado.");
+            return lerDto(jogo);
+        }
+
+        public List<LerJogoDto> ObterPorNome(string nome)
+        {
+            var jogos = _repository.ObterPorNome(nome);
+            if (jogos == null || jogos.Count == 0) throw new DomainException("Nenhum jogo encontrado com esse nome.");
+            return jogos.Select(j => lerDto(j)).ToList();
+        }
+
+        public byte[]? ObterImagemPorId(int id)
+        {
+            if (_repository.ObterPorId(id) == null)
+            {
+                throw new DomainException("Jogo não encontrado");
+            }
+
+            return _repository.ObterImagemPorId(id);
+        }
+
+        public LerJogoDto Adicionar(CriarJogoDto jogoDto, int usuarioId)
+        {
+            ValidarCadastro(jogoDto);
+            Jogo jogo = new Jogo
+            {
+                Nome = jogoDto.Nome,
+                Descricao = jogoDto.Descricao,
+                Preco = jogoDto.Preco,
+                UsuarioID = usuarioId,
+                Imagem = jogoDto.Imagem
+            };
+            _repository.Adicionar(jogo, jogoDto.CategoriasIds);
+            return lerDto(jogo);
+        }
+
+        public void remover(int id)
+        {
+            _repository.Remover(id);
+        }
+
+
+
     }
 }

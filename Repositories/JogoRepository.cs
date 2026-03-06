@@ -32,6 +32,12 @@ namespace RoyalGames.Repositories
             return _context.Jogo.Where(jogo => jogo.Nome.Contains(nome)).ToList();
         }
 
+        public byte[] ObterImagemPorId(int id)
+        {
+            var imagem = _context.Jogo.Where(jogo => jogo.JogoID == id).Select(jogo => jogo.Imagem).FirstOrDefault();
+
+            return imagem;
+        }
         public void Adicionar(Jogo jogo, List<int> GenerosIds)
         {
             List<Genero> generos = _context.Genero.
@@ -45,41 +51,34 @@ namespace RoyalGames.Repositories
 
         public void Atualizar(Jogo jogo, List<int> GenerosIds)
         {
-            Jogo? jogoBanco = _context.Jogo.Include(produto => produto.Genero)
-                .FirstOrDefault(jogoAux => jogoAux.JogoID == jogo.JogoID);
+            Jogo? jogoBanco = _context.Jogo
+                .Include(j => j.Genero)
+                .FirstOrDefault(j => j.JogoID == jogo.JogoID);
 
             if (jogoBanco == null)
-            {
                 return;
-            }
 
             jogoBanco.Nome = jogo.Nome;
             jogoBanco.Descricao = jogo.Descricao;
             jogoBanco.Preco = jogo.Preco;
-            jogoBanco.Imagem = jogo.Imagem;
             jogoBanco.DataLancamento = jogo.DataLancamento;
             jogoBanco.Plataforma = jogo.Plataforma;
-            jogoBanco.Genero = jogo.Genero;
             jogoBanco.ClassificacaoIndicativa = jogo.ClassificacaoIndicativa;
 
-            var generos = _context.Genero.Where(genero => GenerosIds.Contains(genero.GeneroID))
-            .ToList();
-
-
             if (jogo.Imagem != null && jogo.Imagem.Length > 0)
-            {
                 jogoBanco.Imagem = jogo.Imagem;
-            }
 
-            if(jogo.StatusJogo.HasValue)
-            {
-                jogoBanco.StatusJogo = jogo.StatusJogo; 
-            }
+            if (jogo.StatusJogo.HasValue)
+                jogoBanco.StatusJogo = jogo.StatusJogo;
 
-            foreach(var genero in generos)
-            {
+            var generos = _context.Genero
+                .Where(g => GenerosIds.Contains(g.GeneroID))
+                .ToList();
+
+            jogoBanco.Genero.Clear();
+
+            foreach (var genero in generos)
                 jogoBanco.Genero.Add(genero);
-            }
 
             _context.SaveChanges();
         }
@@ -95,7 +94,6 @@ namespace RoyalGames.Repositories
 
             _context.Jogo.Remove(jogo);
             _context.SaveChanges();
-            
         }
 
 

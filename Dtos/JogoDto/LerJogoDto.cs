@@ -8,8 +8,8 @@
         public string Descricao { get; set; }
         public bool? StatusProduto { get; set; }
 
-        public List<int> CategoriasIds { get; set; } = new();
-        public List<string> Categorias { get; set; } = new();
+        public List<int> GenerosIds { get; set; } = new();
+        public List<string> Generos { get; set; } = new();
 
         public int? UsuarioId {  get; set; }
         public string? UsuarioNome {  get; set; }
