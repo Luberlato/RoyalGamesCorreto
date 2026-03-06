@@ -120,5 +120,20 @@ namespace RoyalGames.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public ActionResult Deletar(int id)
+        {
+            try
+            {
+                _service.remover(id);
+                return NoContent();
+            }
+            catch (DomainException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

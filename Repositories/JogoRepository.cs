@@ -32,7 +32,7 @@ namespace RoyalGames.Repositories
             return _context.Jogo.Where(jogo => jogo.Nome.Contains(nome)).ToList();
         }
 
-        public byte[] ObterImagemPorId(int id)
+        public byte[]? ObterImagemPorId(int id)
         {
             var imagem = _context.Jogo.Where(jogo => jogo.JogoID == id).Select(jogo => jogo.Imagem).FirstOrDefault();
 
