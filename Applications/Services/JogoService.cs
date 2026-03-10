@@ -1,4 +1,5 @@
 ﻿using RoyalGames.Applications.Conversões;
+using RoyalGames.Applications.Regras;
 using RoyalGames.Domains;
 using RoyalGames.Dtos.JogoDto;
 using RoyalGames.Excpetions;
@@ -40,14 +41,7 @@ namespace RoyalGames.Applications.Services
             return jogos.Select(j => lerDto(j)).ToList();
         }
 
-        public void ValidarCadastro(CriarJogoDto jogoDto)
-        {
-            if (string.IsNullOrWhiteSpace(jogoDto.Nome))
-                throw new DomainException("Nome é obrigatório");
-
-            if (jogoDto.Preco < 0)
-                throw new DomainException("Preço inválido");
-        }
+        
 
         public LerJogoDto Atualizar(int id, AtualizarJogoDto jogoDto)
         {
@@ -109,7 +103,8 @@ namespace RoyalGames.Applications.Services
 
         public LerJogoDto Adicionar(CriarJogoDto jogoDto, int usuarioId)
         {
-            ValidarCadastro(jogoDto);
+
+            Validacoes.ValidarJogo(jogoDto);
             Jogo jogo = new Jogo
             {
                 Nome = jogoDto.Nome,

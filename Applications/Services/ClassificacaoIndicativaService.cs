@@ -1,4 +1,5 @@
-﻿    using RoyalGames.Domains;
+﻿using RoyalGames.Applications.Regras;
+using RoyalGames.Domains;
     using RoyalGames.Dtos.ClassificacaoDtos;
     using RoyalGames.Excpetions;
     using RoyalGames.Interfaces;
@@ -40,6 +41,8 @@
 
             public void Cadastrar(CriarClassificacaoDto dto)
             {
+
+                Validacoes.ValidarClassificao(dto);
                 if (_repository.FaixaExiste(dto.Nome))
                     throw new DomainException("Esta faixa indicativa já existe.");
 

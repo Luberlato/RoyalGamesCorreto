@@ -31,6 +31,7 @@ namespace RoyalGames.Controllers
             return int.Parse(idTexto);
         }
 
+        
         [HttpGet]
         public IActionResult Listar()
         {
@@ -46,6 +47,7 @@ namespace RoyalGames.Controllers
 
         }
 
+        
         [HttpGet("{id}")]
         public ActionResult ObterPorId(int id)
         {

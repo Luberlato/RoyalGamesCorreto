@@ -2,6 +2,7 @@
 using RoyalGames.Dtos.GeneroDtos;
 using RoyalGames.Excpetions;
 using RoyalGames.Interfaces;
+using RoyalGames.Applications.Regras;
 
 
 namespace RoyalGames.Applications.Services
@@ -44,6 +45,7 @@ namespace RoyalGames.Applications.Services
 
         public LerGeneroDto Cadastrar(CriarGeneroDto dto)
         {
+            Validacoes.ValidarGenero(dto);
             if (_repository.NomeExiste(dto.Nome))
             {
                 throw new DomainException("Este gênero já está cadastrado no sistema.");

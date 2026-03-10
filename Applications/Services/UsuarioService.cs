@@ -1,4 +1,5 @@
-﻿using RoyalGames.Domains;
+﻿using RoyalGames.Applications.Regras;
+using RoyalGames.Domains;
 using RoyalGames.Dtos.UsuarioDtos;
 using RoyalGames.Excpetions;
 using RoyalGames.Interfaces;
@@ -68,7 +69,7 @@ namespace RoyalGames.Applications.Services
 
         public LerUsuarioDto CadastrarUsuario(CriarUsuarioDto criarUsuario)
         {
-            ValidarEmail(criarUsuario.Email);
+            Validacoes.ValidarUsuario(criarUsuario);
 
             if (_repository.EmailExiste(criarUsuario.Email))
             {

@@ -9,7 +9,7 @@ namespace RoyalGames.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    
     public class UsuarioController : ControllerBase
     {
         private readonly UsuarioService _service;
@@ -32,7 +32,8 @@ namespace RoyalGames.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
+
+        [Authorize]
         [HttpGet("{id}")]
         public ActionResult<LerUsuarioDto> ObterPorID(int id)
         {
@@ -46,6 +47,7 @@ namespace RoyalGames.Controllers
             return Ok(usuario);
         }
 
+        [Authorize]
         [HttpGet("email/{email}")]
         public ActionResult<LerUsuarioDto> ObterPorEmail(string email)
         {
@@ -59,7 +61,7 @@ namespace RoyalGames.Controllers
             return Ok(usuario);
         }
 
-
+        [Authorize]
         [HttpPost]
         public ActionResult CadastrarUsuario(CriarUsuarioDto usuarioDto)
         {
@@ -73,8 +75,8 @@ namespace RoyalGames.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
 
+        [Authorize]
         [HttpPut("{id}")]
         public ActionResult<LerUsuarioDto> Atualizar(int id, CriarUsuarioDto usuarioDto)
         {
@@ -90,6 +92,7 @@ namespace RoyalGames.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public ActionResult Deletar(int id)
         {

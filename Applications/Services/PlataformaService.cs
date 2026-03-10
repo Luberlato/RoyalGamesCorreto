@@ -1,4 +1,5 @@
-﻿using RoyalGames.Domains;
+﻿using RoyalGames.Applications.Regras;
+using RoyalGames.Domains;
 using RoyalGames.Dtos.PlataformaDtos;
 using RoyalGames.Excpetions;
 using RoyalGames.Interfaces;
@@ -44,6 +45,8 @@ namespace RoyalGames.Applications.Services
 
         public LerPlataformaDto Cadastrar(CriarPlataformaDto dto)
         {
+
+            Validacoes.ValidarPlataforma(dto);
             if (_repository.NomeExiste(dto.Nome))
             {
                 throw new DomainException("Já existe uma plataforma cadastrada com este nome.");
