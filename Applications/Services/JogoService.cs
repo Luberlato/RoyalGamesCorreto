@@ -111,7 +111,7 @@ namespace RoyalGames.Applications.Services
                 Descricao = jogoDto.Descricao,
                 Preco = jogoDto.Preco,
                 UsuarioID = usuarioId,
-                Imagem = jogoDto.Imagem
+                Imagem = ImagemParaBytes.ConverterImagem(jogoDto.Imagem)
             };
             _repository.Adicionar(jogo, jogoDto.CategoriasIds);
             return lerDto(jogo);

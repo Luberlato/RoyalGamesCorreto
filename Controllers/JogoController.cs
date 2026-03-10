@@ -82,7 +82,7 @@ namespace RoyalGames.Controllers
             try
             {
                 var imagem = _service.ObterImagemPorId(id);
-                return Ok(imagem);
+                return File(imagem, "image/jpeg");
             }
             catch (DomainException ex)
             {
@@ -99,7 +99,7 @@ namespace RoyalGames.Controllers
             {
                 int usuarioId = ObterUsuarioId();
                 LerJogoDto jogo = _service.Adicionar(jogoDto, usuarioId);
-                return Ok(jogoDto);
+                return Ok(jogo);
             }
             catch (DomainException ex)
             {

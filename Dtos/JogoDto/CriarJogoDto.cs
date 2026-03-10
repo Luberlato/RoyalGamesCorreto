@@ -8,6 +8,6 @@
 
         public List<int> CategoriasIds { get; set; } = new List<int>();
 
-        public byte[]? Imagem { get; set; } = null!;
+        public IFormFile Imagem { get; set; } = null!;
     }
 }
